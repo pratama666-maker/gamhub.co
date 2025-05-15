@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gamhub. - Main Game Online</title>
+<style>
+  body {
+  font-family: Arial, sans-serif;
+  background: #000000; /* Hitam */
+  color: #ffffff; /* Putih */
+  margin: 0;
+  padding: 0;
+  }
+ header {
+  background: #000000; /* Hitam */
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #ffffff; /* Putih */
+}
+
+header input[type="search"] {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: #ffffff; /* Putih */
+  color: #000000; /* Hitam untuk teks */
+}
+  /* Container slider */
+  #slider {
+    position: relative;
+    width: 800px; /* sesuaikan lebar */
+    height: 200px; /* sesuai tinggi gambar */
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    background: #111;
+  }
+
+  /* Wrapper slides */
+  #slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+  }
+
+  /* Gambar tiap slide */
+  #slides img {
+    width: 800px; /* harus sama dengan container */
+    height: 200px;
+    object-fit: cover;
+    user-select: none;
+    flex-shrink: 0;
+    border-radius: 12px;
+  }
+
+  /* Tombol navigasi */
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.3);
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 50%;
+    user-select: none;
+    transition: background 0.3s ease;
+  }
+
+.nav-btn {
+  display: none;
+}
+  .kategori-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  .kategori-btn {
+    background: #0d7377;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .kategori-btn.active {
+    background: #14ffec;
+    color: #000;
+    font-weight: bold;
+  }
+  #gameGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 10px 20px;
+  }
+  .game-card {
+    background: #1f1f1f;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 0 10px #0d7377;
+    transition: transform 0.2s;
+  }
+  .game-card:hover {
+    transform: scale(1.05);
+  }
+  .game-thumb {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+  }
+  .game-name {
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    color: #14ffec;
+  }
+  #gamePlay {
+    display: none;
+    padding: 10px 20px;
+  }
+  #gamePlay.active {
+    display: block;
+  }
+  #gamePlay iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #0d7377;
+  }
+  #btnBack {
+    margin: 10px 0;
+    padding: 8px 16px;
+    background: #14ffec;
+    border: none;
+    color: #000;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .topup-section {
+    padding: 10px 20px;
+  }
+  .topup-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #14ffec;
+  }
+ #topupGrid {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+#topupGrid::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+  .topup-card {
+    background: #1f1f1f;
+    border-radius: 10px;
+    min-width: 120px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #0d7377;
+    flex-shrink: 0;
+    text-align: center;
+    padding: 10px;
+  }
+  .topup-thumb {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 8px;
+  }
+  .topup-name {
+    color: #14ffec;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Gamhub.</h1>
+  <input type="search" id="searchGame" placeholder="Cari game..." oninput="filterGames()" />
+</header>
+
+<div id="slider">
+  <div class="slides" id="slides">
+    <img src="https://i.ibb.co/nNSC4Qst/download.jpg" alt="Promo 1" />
+    <img src="https://i.ibb.co/TBQH3B3J/animated-character-playing-video-games-tv-screen-ai-generated-illustration-866663-47107.jpg" alt="Promo 2" />
+    <img src="https://i.ibb.co/h1ZdZGZV/valorant-killjoy-valorant-digital-art-artwork-digital-hd-wallpaper-preview.jpg" alt="Promo 3" />
+    <img src="https://i.ibb.co/G4ZFcqFX/sage-valorant-riot-video-game-wallpaper-3200x900-74.jpg" alt="Promo 4" />
+  </div>
+
+  <button id="prev" class="nav-btn">&#10094;</button>
+  <button id="next" class="nav-btn">&#10095;</button>
+</div>
+</div>
+
+<div class="kategori-container">
+  <button class="kategori-btn active" onclick="filterByCategory('semua')">Semua</button>
+  <button class="kategori-btn" onclick="filterByCategory('action')">Action</button>
+  <button class="kategori-btn" onclick="filterByCategory('strategy')">Strategy</button>
+  <button class="kategori-btn" onclick="filterByCategory('puzzle')">Puzzle</button>
+  <button class="kategori-btn" onclick="filterByCategory('racing')">Racing</button>
+  <button class="kategori-btn" onclick="filterByCategory('adventure')">Adventure</button>
+      <button class="kategori-btn" onclick="filterByCategory('art')">Art</button>
+</div>
+
+<div id="gameGrid"></div>
+
+<div id="gamePlay">
+  <button id="btnBack" onclick="backToGrid()">← Kembali ke Menu</button>
+  <iframe src="" allowfullscreen></iframe>
+</div>
+
+<div class="topup-section">
+  <div class="topup-title">Top-up Game Populer</div>
+  <div id="topupGrid"></div>
+</div>
+
+<script>
+  const games = [
+    {
+      name: "Turbo Racer 3D",
+      category: "racing",
+      url: "https://html5.gamemonetize.co/avkcgcjgjh3tq64xmsdwk9tmyblwyzqh/",
+      thumb: "https://i.ibb.co/PGY04wzT/512x384.jpg"
+    },
+    {
+      name: "Getting Over It Unblocked",
+      category: "adventure",
+      url: "https://html5.gamemonetize.co/99gjodm9l46o7lbkuf26qhc54pxyzp1o/",
+      thumb: "https://i.ibb.co/VYqRCM7q/512x384.jpg"
+    },
+    {
+      name: "Stick Hero Fight",
+      category: "action",
+      url: "https://html5.gamemonetize.co/2e74bihleu981stvz8c9wtqb6nd7wnup/",
+      thumb: "https://i.ibb.co/nqnjPh9C/512x384.jpg"
+    },
+    {
+      name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "FantasticLandia",
+      category: "adventure",
+      url: "hhttps://html5.gamemonetize.co/drrktlmcefmg76eh077p4hwfo4kitnz2/",
+      thumb: "https://i.ibb.co/Q7x8Dd9N/512x384.webp"
+    },
+    {
+           name: "Gemstone Glam",
+      category: "makeup",
+      url: "https://html5.gamemonetize.co/bvghar76v4qwarolxtuugtvc15j3ytcl/",
+      thumb: "https://i.ibb.co/HTVx6h43/512x384.jpg"
+    },
+    {
+           name: "Rogue Seas Adventure",
+      category: "adventure",
+      url: "https://html5.gamemonetize.co/b7fi1enampkyavtm4pg1vi7v4kt1o5bl/",
+      thumb: "https://i.ibb.co/sDHMHWn/512x384.jpg"
+    },
+    {
+           name: "Cimb Masters",
+      category: "adventure",
+      url: "https://html5.gamemonetize.co/ulf9jvlgbscr8oaarb98jynv6poplfad/",
+      thumb: "https://i.ibb.co/C5MWWDdS/512x384.jpg"
+    },
+    {
+           name: "StickMan Team Force",
+      category: "action",
+      url: "https://html5.gamemonetize.co/wdwndlx5wn7lyptgc8hck6drcfte2miz/",
+      thumb: "https://i.ibb.co/0RLwSTzR/512x384.jpg"
+    },
+    {
+           name: "Mini Grand Thef City",
+      category: "action",
+      url: "https://html5.gamemonetize.co/3io73p9kwkkyxwssbkxzsngkh34vpenv/",
+      thumb: "https://i.ibb.co/whZghnvg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    {
+           name: "Italian Brainrot Coloring Pages",
+      category: "art",
+      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
+      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
+    },
+    
+  ];
+
+  const topups = [
+    {name:"Mobile Legends", thumb:"https://i.ibb.co/RGLPpbxv/download.jpg"},
+    {name:"Free Fire", thumb:"https://i.ibb.co/r2CF6gqG/download.jpg"},
+    {name:"PUBG Mobile", thumb:"https://i.ibb.co/VWWdpfzH/download.jpg"},
+    {name:"Call of Duty Mobile", thumb:"https://i.ibb.co/zz4WFk1/download.jpg"},
+    {name:"Dota 2", thumb:"https://i.ibb.co/j9P8vs2g/download.jpg"},
+    {name:"Valorant", thumb:"https://i.ibb.co/JjX55BtW/download.jpg"},
+    {name:"Genshin Impact", thumb:"https://i.ibb.co/TxMpmNSF/download.jpg"}
+  ];
+
+  const gameGrid = document.getElementById('gameGrid');
+  const topupGrid = document.getElementById('topupGrid');
+  const gamePlay = document.getElementById('gamePlay');
+  const iframe = gamePlay.querySelector('iframe');
+
+  // Render grid games
+  function renderGames(filterCategory = 'semua', searchTerm = '') {
+    gameGrid.innerHTML = '';
+    let filtered = games.filter(game => {
+      const matchCat = filterCategory === 'semua' || game.category === filterCategory;
+      const matchSearch = game.name.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchCat && matchSearch;
+    });
+    filtered.forEach(game => {
+      const card = document.createElement('div');
+      card.className = 'game-card';
+      card.tabIndex = 0;
+      card.setAttribute('role','button');
+      card.setAttribute('aria-label', `Mainkan ${game.name}`);
+      card.innerHTML = `
+        <img src="${game.thumb}" alt="Thumbnail ${game.name}" class="game-thumb" />
+        <div class="game-name">${game.name}</div>
+      `;
+      card.onclick = () => playGame(game.url);
+      card.onkeydown = e => { if(e.key === 'Enter' || e.key === ' ') playGame(game.url); }
+      gameGrid.appendChild(card);
+    });
+  }
+
+  // Render topup games
+  function renderTopups() {
+    topupGrid.innerHTML = '';
+    topups.forEach(game => {
+      const card = document.createElement('div');
+      card.className = 'topup-card';
+      card.setAttribute('tabindex','0');
+      card.setAttribute('role','button');
+      card.setAttribute('aria-label', `Top-up ${game.name}`);
+      card.innerHTML = `
+        <img src="${game.thumb}" alt="${game.name} logo" class="topup-thumb" />
+        <div class="topup-name">${game.name}</div>
+      `;
+      card.onclick = () => alert(`Menu Top-up ${game.name} belum tersedia!`);
+      card.onkeydown = e => { if(e.key === 'Enter' || e.key === ' ') alert(`Menu Top-up ${game.name} belum tersedia!`); }
+      topupGrid.appendChild(card);
+    });
+  }
+
+  // Play game di iframe
+  function playGame(url) {
+    iframe.src = url;
+    gamePlay.classList.add('active');
+    gameGrid.style.display = 'none';
+    document.querySelector('.kategori-container').style.display = 'none';
+    document.querySelector('.topup-section').style.display = 'none';
+    document.getElementById('slider').style.display = 'none';
+  }
+
+  // Kembali ke grid game
+  function backToGrid() {
+    iframe.src = '';
+    gamePlay.classList.remove('active');
+    gameGrid.style.display = 'grid';
+    document.querySelector('.kategori-container').style.display = 'flex';
+    document.querySelector('.topup-section').style.display = 'block';
+    document.getElementById('slider').style.display = 'block';
+  }
+
+  // Filter kategori
+  function filterByCategory(cat) {
+    document.querySelectorAll('.kategori-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.toLowerCase() === cat);
+    });
+    renderGames(cat, document.getElementById('searchGame').value);
+  }
+
+  // Cari game
+  function filterGames() {
+    const searchTerm = document.getElementById('searchGame').value;
+    const activeCategory = [...document.querySelectorAll('.kategori-btn')].find(btn => btn.classList.contains('active'));
+    const cat = activeCategory ? activeCategory.textContent.toLowerCase() : 'semua';
+    renderGames(cat, searchTerm);
+  }
+
+  // Slider otomatis
+  let currentSlide = 0;
+  const slidesEl = document.getElementById('slides');
+  const totalSlides = slidesEl.children.length;
+  function showSlide(index) {
+    if(index >= totalSlides) index = 0;
+    if(index < 0) index = totalSlides - 1;
+    slidesEl.style.transform = `translateX(-${index * 100}%)`;
+    currentSlide = index;
+  }
+  setInterval(() => {
+    showSlide(currentSlide + 1);
+  }, 4000);
+
+  // Inisialisasi awal
+  renderGames();
+  renderTopups();
+  showSlide(0);
+</script>
+
+</body>
+</html>
