@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pratama666-maker.github.io/gamhub.co/sitemap.xml
