@@ -1,506 +1,846 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Gamhub. - Main Game Online</title>
-<style>
-  body {
-  font-family: Arial, sans-serif;
-  background: #000000; /* Hitam */
-  color: #ffffff; /* Putih */
-  margin: 0;
-  padding: 0;
-  }
- header {
-  background: #000000; /* Hitam */
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-site-verification" content="googlea3c2d1e8dda93d62" />
+  
+  <title>Gamhub - Game Streaming, Store & Portal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #f9f9f9;
+      color: #111;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    header {
+      position: fixed;
+      top: 0; left:0; right:0;
+      background: white;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+      user-select: none;
+    }
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: #0f62fe;
+      user-select: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo i {
+      color: #0f62fe;
+      font-size: 28px;
+    }
+    .search-bar {
+      flex-grow: 1;
+      margin: 0 20px;
+      position: relative;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 10px 45px 10px 15px;
+      border-radius: 9999px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    .search-bar input:focus {
+      outline: none;
+      border-color: #0f62fe;
+      box-shadow: 0 0 6px #0f62feaa;
+    }
+    .search-icon {
+      position: absolute;
+      right: 15px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: #999;
+      pointer-events: none;
+    }
+    nav.categories {
+      margin-top: 62px;
+      background: white;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 62px;
+      z-index: 999;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none; /* Firefox */
+    }
+    nav.categories::-webkit-scrollbar {
+      display: none; /* Chrome */
+    }
+    nav.categories button {
+      background: #e2eaff;
+      color: #0f62fe;
+      border: none;
+      border-radius: 9999px;
+      padding: 8px 18px;
+      font-weight: 600;
+      font-size: 14px;
+      margin-right: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    nav.categories button:hover, nav.categories button.active {
+      background: #0f62fe;
+      color: white;
+    }
+    main {
+      padding: 20px;
+      padding-top: 30px;
+      max-width: 1400px;
+      margin: 0 auto 80px auto;
+    }
+    h2.section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #0f62fe;
+      user-select: none;
+    }
+    /* Games Grid */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(224px, 1fr));
+      gap: 20px;
+    }
+    .game-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .game-card:hover {
+      box-shadow: 0 6px 20px rgb(0 0 0 / 0.2);
+    }
+    .game-card img {
+      width: 100%;
+      height: 126px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      will-change: transform;
+    }
+    .game-card:hover img {
+      transform: scale(1.05);
+    }
+    .game-info {
+      flex-grow: 1;
+      padding: 12px 14px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .game-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #0f62fe;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+      user-select: text;
+    }
+    .game-desc {
+      font-size: 14px;
+      color: #333;
+      flex-grow: 1;
+      margin-bottom: 10px;
+      user-select: text;
+    }
+    .game-meta {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+      user-select: none;
+    }
+    .play-button {
+      background: #0f62fe;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      align-self: flex-start;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .play-button:hover {
+      background: #0043ce;
+    }
+    /* Modal Overlay */
+    #game-modal {
+      position: fixed;
+      top: 0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      user-select: none;
+    }
+    #game-modal.active {
+      display: flex;
+    }
+    #game-frame-container {
+      background: #000;
+      border-radius: 12px;
+      width: 800px;
+      height: 450px;
+      box-shadow: 0 0 20px #0f62feaa;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    #game-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      user-select: none;
+    }
+    #modal-close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      background: #0f62fe;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 0 8px #0f62feaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    #modal-close:hover {
+      background: #0043ce;
+    }
 
-header h1 {
-  margin: 0;
-  font-size: 24px;
-  color: #ffffff; /* Putih */
-}
+    /* Twitch Section */
+    #twitch-section {
+      margin-top: 40px;
+    }
+    #twitch-section h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #9147ff;
+      user-select: none;
+    }
+    #twitch-channels {
+      display: flex;
+      overflow-x: auto;
+      gap: 16px;
+      padding-bottom: 10px;
+      scrollbar-width: none;
+    }
+    #twitch-channels::-webkit-scrollbar {
+      display: none;
+    }
+    .twitch-channel {
+      min-width: 220px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .twitch-channel:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .twitch-thumb {
+      width: 100%;
+      height: 126px;
+      object-fit: cover;
+    }
+    .twitch-info {
+      padding: 10px 12px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .twitch-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #9147ff;
+      margin: 0 0 6px;
+      user-select: text;
+    }
+    .twitch-desc {
+      font-size: 14px;
+      color: #333;
+      flex-grow: 1;
+      margin: 0 0 6px;
+      user-select: text;
+    }
+    /* Twitch player container */
+    #twitch-player-container {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 840px;
+      height: 472px; /* 16:9 ratio */
+      box-shadow: 0 0 35px #9147ff88;
+      border-radius: 14px;
+      overflow: hidden;
+      background: black;
+      user-select: none;
+      position: relative;
+    }
 
-header input[type="search"] {
-  padding: 6px 12px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: none;
-  background-color: #ffffff; /* Putih */
-  color: #000000; /* Hitam untuk teks */
-}
-  /* Container slider */
-  #slider {
-    position: relative;
-    width: 800px; /* sesuaikan lebar */
-    height: 200px; /* sesuai tinggi gambar */
-    margin: 20px auto;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    background: #111;
-  }
+    /* Store Section */
+    #store-section {
+      margin-top: 40px;
+    }
+    #store-section h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #0f62fe;
+      user-select: none;
+    }
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 20px;
+    }
+    .store-item {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      overflow: hidden;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+    .store-item:hover {
+      box-shadow: 0 6px 20px rgb(0 0 0 / 0.2);
+    }
+    .store-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: contain;
+      background: #eee;
+    }
+    .store-info {
+      padding: 12px 14px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .store-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      margin: 0 0 8px 0;
+      color: #0f62fe;
+      user-select: text;
+    }
+    .store-desc {
+      font-size: 14px;
+      color: #333;
+      flex-grow: 1;
+      margin: 0 0 10px 0;
+      user-select: text;
+    }
+    .store-price {
+      font-weight: 700;
+      color: #111;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .buy-button {
+      background: #0f62fe;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .buy-button:hover {
+      background: #0043ce;
+    }
 
-  /* Wrapper slides */
-  #slides {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    height: 100%;
-  }
-
-  /* Gambar tiap slide */
-  #slides img {
-    width: 800px; /* harus sama dengan container */
-    height: 200px;
-    object-fit: cover;
-    user-select: none;
-    flex-shrink: 0;
-    border-radius: 12px;
-  }
-
-  /* Tombol navigasi */
-  .nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.3);
-    border: none;
-    color: #fff;
-    font-size: 28px;
-    padding: 8px 14px;
-    cursor: pointer;
-    border-radius: 50%;
-    user-select: none;
-    transition: background 0.3s ease;
-  }
-
-.nav-btn {
-  display: none;
-}
-  .kategori-container {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-  }
-  .kategori-btn {
-    background: #0d7377;
-    border: none;
-    color: white;
-    padding: 8px 15px;
-    margin: 0 5px;
-    border-radius: 20px;
-    cursor: pointer;
-  }
-  .kategori-btn.active {
-    background: #14ffec;
-    color: #000;
-    font-weight: bold;
-  }
-  #gameGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    padding: 10px 20px;
-  }
-  .game-card {
-    background: #1f1f1f;
-    border-radius: 10px;
-    cursor: pointer;
-    overflow: hidden;
-    box-shadow: 0 0 10px #0d7377;
-    transition: transform 0.2s;
-  }
-  .game-card:hover {
-    transform: scale(1.05);
-  }
-  .game-thumb {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    display: block;
-  }
-  .game-name {
-    padding: 8px;
-    text-align: center;
-    font-weight: bold;
-    color: #14ffec;
-  }
-  #gamePlay {
-    display: none;
-    padding: 10px 20px;
-  }
-  #gamePlay.active {
-    display: block;
-  }
-  #gamePlay iframe {
-    width: 100%;
-    height: 600px;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 0 15px #0d7377;
-  }
-  #btnBack {
-    margin: 10px 0;
-    padding: 8px 16px;
-    background: #14ffec;
-    border: none;
-    color: #000;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  .topup-section {
-    padding: 10px 20px;
-  }
-  .topup-title {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #14ffec;
-  }
- #topupGrid {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
-}
-
-#topupGrid::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-
-  .topup-card {
-    background: #1f1f1f;
-    border-radius: 10px;
-    min-width: 120px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #0d7377;
-    flex-shrink: 0;
-    text-align: center;
-    padding: 10px;
-  }
-  .topup-thumb {
-    width: 100%;
-    height: 80px;
-    object-fit: contain;
-    margin-bottom: 8px;
-  }
-  .topup-name {
-    color: #14ffec;
-    font-weight: bold;
-  }
-</style>
+    /* Responsive */
+    @media (max-width: 1024px) {
+      #game-frame-container, #twitch-player-container {
+        width: 90vw;
+        height: calc(90vw * 9 / 16);
+      }
+      .games-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+      .store-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+    }
+    @media (max-width: 600px) {
+      .games-grid, .store-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      header {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 20px;
+      }
+      #search-bar {
+        flex-basis: 100%;
+        margin-top: 10px;
+        margin-left: 0;
+      }
+      #twitch-channels {
+        gap: 12px;
+      }
+      .twitch-channel {
+        min-width: 170px;
+      }
+    }
+  </style>
 </head>
 <body>
-
 <header>
-  <h1>Gamhub.</h1>
-  <input type="search" id="searchGame" placeholder="Cari game..." oninput="filterGames()" />
+  <div class="logo" tabindex="0" aria-label="Gamhub home"><i class="fas fa-gamepad"></i> Gamhub</div>
+  <div class="search-bar" role="search">
+    <input
+      type="search"
+      id="search-input"
+      aria-label="Search games"
+      placeholder="Cari game di Gamhub..."
+      autocomplete="off"
+    />
+    <span class="search-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+  </div>
 </header>
 
-<div id="slider">
-  <div class="slides" id="slides">
-    <img src="https://i.ibb.co/nNSC4Qst/download.jpg" alt="Promo 1" />
-    <img src="https://i.ibb.co/TBQH3B3J/animated-character-playing-video-games-tv-screen-ai-generated-illustration-866663-47107.jpg" alt="Promo 2" />
-    <img src="https://i.ibb.co/h1ZdZGZV/valorant-killjoy-valorant-digital-art-artwork-digital-hd-wallpaper-preview.jpg" alt="Promo 3" />
-    <img src="https://i.ibb.co/G4ZFcqFX/sage-valorant-riot-video-game-wallpaper-3200x900-74.jpg" alt="Promo 4" />
+<nav class="categories" role="navigation" aria-label="Game categories" tabindex="0">
+  <!-- categories buttons added by JS -->
+</nav>
+
+<main>
+  <h2 class="section-title" id="section-title">Semua Game</h2>
+  <div class="games-grid" id="games-grid" role="list" aria-label="Daftar game"></div>
+
+  <section id="twitch-section" aria-label="Game live streams">
+    <h2>Live Streaming</h2>
+    <div id="twitch-channels" role="list" aria-label="Twitch channels" style="display: flex; overflow-x: auto; gap:16px; padding-bottom:10px;"></div>
+    <div id="twitch-player-container" aria-label="Twitch video player" style="margin-top:20px; width:100%; max-width:840px; height:472px; box-shadow:0 0 35px #9147ff88; border-radius:14px; overflow:hidden; background:black; user-select:none; position:relative;"></div>
+  </section>
+
+  <section id="store-section" aria-label="Merchandise store">
+    <h2>Store Merchandise</h2>
+    <div class="store-grid" id="store-grid" role="list" aria-label="Merchandise items"></div>
+  </section>
+</main>
+
+<!-- Game modal -->
+<div id="game-modal" role="dialog" aria-modal="true" aria-labelledby="modal-game-title" tabindex="-1">
+  <div id="game-frame-container">
+    <button id="modal-close" aria-label="Tutup game">×</button>
+    <iframe id="game-iframe" title="Game Frame" sandbox="allow-scripts allow-same-origin" allowfullscreen></iframe>
   </div>
-
-  <button id="prev" class="nav-btn">&#10094;</button>
-  <button id="next" class="nav-btn">&#10095;</button>
-</div>
 </div>
 
-<div class="kategori-container">
-  <button class="kategori-btn active" onclick="filterByCategory('semua')">Semua</button>
-  <button class="kategori-btn" onclick="filterByCategory('action')">Action</button>
-  <button class="kategori-btn" onclick="filterByCategory('strategy')">Strategy</button>
-  <button class="kategori-btn" onclick="filterByCategory('puzzle')">Puzzle</button>
-  <button class="kategori-btn" onclick="filterByCategory('racing')">Racing</button>
-  <button class="kategori-btn" onclick="filterByCategory('adventure')">Adventure</button>
-      <button class="kategori-btn" onclick="filterByCategory('art')">Art</button>
-</div>
-
-<div id="gameGrid"></div>
-
-<div id="gamePlay">
-  <button id="btnBack" onclick="backToGrid()">← Kembali ke Menu</button>
-  <iframe src="" allowfullscreen></iframe>
-</div>
-
-<div class="topup-section">
-  <div class="topup-title">Top-up Game Populer</div>
-  <div id="topupGrid"></div>
-</div>
-
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script>
-  const games = [
-    {
-      name: "Turbo Racer 3D",
-      category: "racing",
-      url: "https://html5.gamemonetize.co/avkcgcjgjh3tq64xmsdwk9tmyblwyzqh/",
-      thumb: "https://i.ibb.co/PGY04wzT/512x384.jpg"
-    },
-    {
-      name: "Getting Over It Unblocked",
-      category: "adventure",
-      url: "https://html5.gamemonetize.co/99gjodm9l46o7lbkuf26qhc54pxyzp1o/",
-      thumb: "https://i.ibb.co/VYqRCM7q/512x384.jpg"
-    },
-    {
-      name: "Stick Hero Fight",
-      category: "action",
-      url: "https://html5.gamemonetize.co/2e74bihleu981stvz8c9wtqb6nd7wnup/",
-      thumb: "https://i.ibb.co/nqnjPh9C/512x384.jpg"
-    },
-    {
-      name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "FantasticLandia",
-      category: "adventure",
-      url: "hhttps://html5.gamemonetize.co/drrktlmcefmg76eh077p4hwfo4kitnz2/",
-      thumb: "https://i.ibb.co/Q7x8Dd9N/512x384.webp"
-    },
-    {
-           name: "Gemstone Glam",
-      category: "makeup",
-      url: "https://html5.gamemonetize.co/bvghar76v4qwarolxtuugtvc15j3ytcl/",
-      thumb: "https://i.ibb.co/HTVx6h43/512x384.jpg"
-    },
-    {
-           name: "Rogue Seas Adventure",
-      category: "adventure",
-      url: "https://html5.gamemonetize.co/b7fi1enampkyavtm4pg1vi7v4kt1o5bl/",
-      thumb: "https://i.ibb.co/sDHMHWn/512x384.jpg"
-    },
-    {
-           name: "Cimb Masters",
-      category: "adventure",
-      url: "https://html5.gamemonetize.co/ulf9jvlgbscr8oaarb98jynv6poplfad/",
-      thumb: "https://i.ibb.co/C5MWWDdS/512x384.jpg"
-    },
-    {
-           name: "StickMan Team Force",
-      category: "action",
-      url: "https://html5.gamemonetize.co/wdwndlx5wn7lyptgc8hck6drcfte2miz/",
-      thumb: "https://i.ibb.co/0RLwSTzR/512x384.jpg"
-    },
-    {
-           name: "Mini Grand Thef City",
-      category: "action",
-      url: "https://html5.gamemonetize.co/3io73p9kwkkyxwssbkxzsngkh34vpenv/",
-      thumb: "https://i.ibb.co/whZghnvg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    {
-           name: "Italian Brainrot Coloring Pages",
-      category: "art",
-      url: "https://html5.gamemonetize.co/lwqcwy33ifzsbqo23m0pjrc7eni4byly/",
-      thumb: "https://i.ibb.co/k2LkfpWg/512x384.jpg"
-    },
-    
-  ];
+  (() => {
+    const games = [
+      {
+        id: 'g1',
+        title: 'Stick Hero Fight',
+        desc: 'Enter the most nervous stickman battles. In Stick Hero Fight, you as a mighty stickman hero.',
+        thumbnail: 'https://i.ibb.co/8LNYqp0d/512x384.jpg',
+        embed: '//html5.gamemonetize.co/2e74bihleu981stvz8c9wtqb6nd7wnup/',
+        category: 'Action'
+      },
+      {
+        id: 'g2',
+        title: 'StickMan Team Force',
+        desc: 'A new Adventure begins in Kiz10 Special ces called Stickman Team Force.',
+        thumbnail: 'https://i.ibb.co/TMkqRH5R/512x384.jpg',
+        embed: 'https://html5.gamemonetize.co/wdwndlx5wn7lyptgc8hck6drcfte2miz/',
+        category: 'Action'
+      },
+      {
+        id: 'g3',
+        title: 'ChooChoo Charles Friends Defense',
+        desc: 'If youre looking for a heart-pounding, time-sucking online action game.',
+        thumbnail: 'https://i.ibb.co/996g6p0J/512x384.jpg',
+        embed: 'https://html5.gamemonetize.co/5bsheg26uutci2x11kw4s9enwmse2kuh/',
+        category: 'Adventure'
+      },
+      {
+        id: 'g4',
+        title: 'Obby Minecraft Ultimate',
+        desc: 'Obby Parkour Ultimate 3D is a fun skill-based game.',
+        thumbnail: 'https://i.ibb.co/rKgzCkvb/512x384.jpg',
+        embed: 'https://html5.gamemonetize.co/lenulffi2x6dvqs6yadgwr2o6yu8gi8o/',
+        category: 'Adventure'
+      },
+      {
+        id: 'g5',
+        title: 'Mini Tennis Club',
+        desc: 'Take part in an amazing tennis match and enjoy the swift and fluent game. ',
+        thumbnail: 'https://i.ibb.co/x8h5m2YL/512x384.jpg',
+        embed: 'https://html5.gamemonetize.co/49eln5cwqtgvyhxuxvb8ksp8jkz33h81/',
+        category: '3D'
+      },
+      {
+        id: 'g6',
+        title: 'Jump Will Jump',
+        desc: 'Jump, dash,',
+        thumbnail: 'https://i.ibb.co/d4TfCbqT/512x384.jpg',
+        embed: 'https://html5.gamemonetize.co/t93yw35gjjvle0qbk7qkthx8z0ekmeqg/',
+        category: 'Adventure'
+      },
+      {
+        id: 'g7',
+        title: 'Super Wario Riders',
+        desc: 'Join in a race in the world of mushrooms and magic stars.',
+        thumbnail: 'https://i.ibb.co/TMrLN87w/512x384.jpg',
+        embed: 'https://html5.gamemonetize.co/sly30piwilci61j7pc5x8n36cdu9n19f/',
+        category: 'Arcade'
+      },
+      {
+        id: 'g8',
+        title: 'Princess Makeup Dressup Games',
+        desc: 'Princess Makeup Dressup Games is an online game that you can play on Babygames for free.',
+        thumbnail: 'https://i.ibb.co/YTX3nhB4/512x384.jpg',
+        embed: 'https://html5.gamemonetize.co/zxw0mbzvolzpsd8iai9ftu10e9f5kbxc/',
+        category: 'Girls'
+      }
+    ];
 
-  const topups = [
-    {name:"Mobile Legends", thumb:"https://i.ibb.co/RGLPpbxv/download.jpg"},
-    {name:"Free Fire", thumb:"https://i.ibb.co/r2CF6gqG/download.jpg"},
-    {name:"PUBG Mobile", thumb:"https://i.ibb.co/VWWdpfzH/download.jpg"},
-    {name:"Call of Duty Mobile", thumb:"https://i.ibb.co/zz4WFk1/download.jpg"},
-    {name:"Dota 2", thumb:"https://i.ibb.co/j9P8vs2g/download.jpg"},
-    {name:"Valorant", thumb:"https://i.ibb.co/JjX55BtW/download.jpg"},
-    {name:"Genshin Impact", thumb:"https://i.ibb.co/TxMpmNSF/download.jpg"}
-  ];
+    const categoriesSet = new Set(games.map(g => g.category));
+    const categories = ['Semua'].concat(Array.from(categoriesSet).sort());
 
-  const gameGrid = document.getElementById('gameGrid');
-  const topupGrid = document.getElementById('topupGrid');
-  const gamePlay = document.getElementById('gamePlay');
-  const iframe = gamePlay.querySelector('iframe');
+    const categoriesNav = document.querySelector('nav.categories');
+    const gamesGrid = document.getElementById('games-grid');
+    const sectionTitle = document.getElementById('section-title');
+    const searchInput = document.getElementById('search-input');
+    const gameModal = document.getElementById('game-modal');
+    const gameIframe = document.getElementById('game-iframe');
+    const modalCloseBtn = document.getElementById('modal-close');
 
-  // Render grid games
-  function renderGames(filterCategory = 'semua', searchTerm = '') {
-    gameGrid.innerHTML = '';
-    let filtered = games.filter(game => {
-      const matchCat = filterCategory === 'semua' || game.category === filterCategory;
-      const matchSearch = game.name.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchCat && matchSearch;
+    let currentCategory = 'Semua';
+    let currentSearch = '';
+
+    const categoryIcons = {
+      'Puzzle': 'fa-puzzle-piece',
+      'Racing': 'fa-flag-checkered',
+      'Adventure': 'fa-hat-wizard',
+      'Sports': 'fa-basketball-ball',
+      '3D': 'fa-cube',
+      'Arcade': 'fa-gamepad'
+    };
+
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.textContent = cat;
+      btn.className = cat === currentCategory ? 'active' : '';
+      btn.setAttribute('aria-pressed', cat === currentCategory ? 'true' : 'false');
+      if(categoryIcons[cat]){
+        const icon = document.createElement('i');
+        icon.className = `fas ${categoryIcons[cat]} fa-fw`;
+        icon.style.marginRight = '6px';
+        btn.prepend(icon);
+      }
+      btn.addEventListener('click', () => {
+        if(currentCategory === cat) return;
+        currentCategory = cat;
+        Array.from(categoriesNav.children).forEach(b => {
+          b.classList.toggle('active', b.textContent.trim() === cat);
+          b.setAttribute('aria-pressed', b.textContent.trim() === cat ? 'true' : 'false');
+        });
+        renderGames();
+        sectionTitle.textContent = cat === 'Semua' ? 'Semua Game' : `Kategori: ${cat}`;
+      });
+      categoriesNav.appendChild(btn);
     });
-    filtered.forEach(game => {
-      const card = document.createElement('div');
-      card.className = 'game-card';
-      card.tabIndex = 0;
-      card.setAttribute('role','button');
-      card.setAttribute('aria-label', `Mainkan ${game.name}`);
-      card.innerHTML = `
-        <img src="${game.thumb}" alt="Thumbnail ${game.name}" class="game-thumb" />
-        <div class="game-name">${game.name}</div>
-      `;
-      card.onclick = () => playGame(game.url);
-      card.onkeydown = e => { if(e.key === 'Enter' || e.key === ' ') playGame(game.url); }
-      gameGrid.appendChild(card);
+
+    function renderGames(){
+      let filtered = games.filter(g => currentCategory === 'Semua' || g.category === currentCategory);
+      if(currentSearch.trim()){
+        const s = currentSearch.toLowerCase();
+        filtered = filtered.filter(g => g.title.toLowerCase().includes(s));
+      }
+      gamesGrid.innerHTML = '';
+      if(filtered.length === 0){
+        gamesGrid.innerHTML = '<p style="text-align:center; color:#666; font-weight:600;">Tidak ada game ditemukan.</p>';
+        return;
+      }
+      filtered.forEach(g => {
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.setAttribute('role','listitem');
+        card.tabIndex = 0;
+        card.setAttribute('aria-label', `${g.title}: ${g.desc}`);
+        card.innerHTML = `
+          <img src="${g.thumbnail}" alt="Thumbnail of ${g.title}" loading="lazy" />
+          <div class="game-info">
+            <h3 class="game-title">${g.title}</h3>
+            <p class="game-desc">${g.desc}</p>
+            <p class="game-meta">Kategori: ${g.category}</p>
+            <button class="play-button" aria-label="Mainkan ${g.title}">Mainkan</button>
+          </div>
+        `;
+        const playBtn = card.querySelector('.play-button');
+        playBtn.addEventListener('click', e => {
+          e.stopPropagation();
+          openGameModal(g);
+        });
+        card.addEventListener('click', () => openGameModal(g));
+        gamesGrid.appendChild(card);
+      });
+    }
+
+    function openGameModal(game){
+      gameIframe.src = game.embed;
+      gameIframe.title = `Game: ${game.title}`;
+      gameModal.classList.add('active');
+      gameModal.focus();
+    }
+    function closeGameModal(){
+      gameIframe.src = '';
+      gameModal.classList.remove('active');
+    }
+    modalCloseBtn.addEventListener('click', closeGameModal);
+    gameModal.addEventListener('click', e => {
+      if(e.target === gameModal) closeGameModal();
     });
-  }
-
-  // Render topup games
-  function renderTopups() {
-    topupGrid.innerHTML = '';
-    topups.forEach(game => {
-      const card = document.createElement('div');
-      card.className = 'topup-card';
-      card.setAttribute('tabindex','0');
-      card.setAttribute('role','button');
-      card.setAttribute('aria-label', `Top-up ${game.name}`);
-      card.innerHTML = `
-        <img src="${game.thumb}" alt="${game.name} logo" class="topup-thumb" />
-        <div class="topup-name">${game.name}</div>
-      `;
-      card.onclick = () => alert(`Menu Top-up ${game.name} belum tersedia!`);
-      card.onkeydown = e => { if(e.key === 'Enter' || e.key === ' ') alert(`Menu Top-up ${game.name} belum tersedia!`); }
-      topupGrid.appendChild(card);
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape' && gameModal.classList.contains('active')){
+        closeGameModal();
+      }
     });
-  }
 
-  // Play game di iframe
-  function playGame(url) {
-    iframe.src = url;
-    gamePlay.classList.add('active');
-    gameGrid.style.display = 'none';
-    document.querySelector('.kategori-container').style.display = 'none';
-    document.querySelector('.topup-section').style.display = 'none';
-    document.getElementById('slider').style.display = 'none';
-  }
-
-  // Kembali ke grid game
-  function backToGrid() {
-    iframe.src = '';
-    gamePlay.classList.remove('active');
-    gameGrid.style.display = 'grid';
-    document.querySelector('.kategori-container').style.display = 'flex';
-    document.querySelector('.topup-section').style.display = 'block';
-    document.getElementById('slider').style.display = 'block';
-  }
-
-  // Filter kategori
-  function filterByCategory(cat) {
-    document.querySelectorAll('.kategori-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.textContent.toLowerCase() === cat);
+    searchInput.addEventListener('input', () => {
+      currentSearch = searchInput.value;
+      renderGames();
     });
-    renderGames(cat, document.getElementById('searchGame').value);
-  }
 
-  // Cari game
-  function filterGames() {
-    const searchTerm = document.getElementById('searchGame').value;
-    const activeCategory = [...document.querySelectorAll('.kategori-btn')].find(btn => btn.classList.contains('active'));
-    const cat = activeCategory ? activeCategory.textContent.toLowerCase() : 'semua';
-    renderGames(cat, searchTerm);
-  }
+    // Twitch Section
+    const twitchChannelsData = [
+      {name: 'ninja', title: 'Ninja - Fortnite Stream', thumbnail: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_ninja-440x248.jpg'},
+      {name: 'shroud', title: 'Shroud - FPS Games', thumbnail: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_shroud-440x248.jpg'},
+      {name: 'pokimane', title: 'Pokimane - Variety Streaming', thumbnail: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_pokimane-440x248.jpg'},
+      {name: 'summit1g', title: 'Summit1g - Action/Adventure', thumbnail: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_summit1g-440x248.jpg'},
+      {name: 'xqcow', title: 'xQcOW - Variety & Chat', thumbnail: 'https://static-cdn.jtvnw.net/previews-ttv/live_user_xqcow-440x248.jpg'},
+    ];
 
-  // Slider otomatis
-  let currentSlide = 0;
-  const slidesEl = document.getElementById('slides');
-  const totalSlides = slidesEl.children.length;
-  function showSlide(index) {
-    if(index >= totalSlides) index = 0;
-    if(index < 0) index = totalSlides - 1;
-    slidesEl.style.transform = `translateX(-${index * 100}%)`;
-    currentSlide = index;
-  }
-  setInterval(() => {
-    showSlide(currentSlide + 1);
-  }, 4000);
+    function renderTwitchChannels(){
+      const container = document.getElementById('twitch-channels');
+      container.innerHTML = '';
+      twitchChannelsData.forEach(ch => {
+        const div = document.createElement('div');
+        div.className = 'twitch-channel';
+        div.setAttribute('role', 'listitem');
+        div.tabIndex = 0;
+        div.setAttribute('aria-label', `Channel Twitch ${ch.name}, ${ch.title}`);
+        div.innerHTML = `
+          <img src="${ch.thumbnail}" alt="Thumbnail channel ${ch.name}" class="twitch-thumb" />
+          <div class="twitch-info">
+            <h3 class="twitch-title">${ch.name}</h3>
+            <p class="twitch-desc">${ch.title}</p>
+          </div>
+        `;
+        div.addEventListener('click', () => loadTwitchStream(ch.name));
+        div.addEventListener('keydown', e => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            loadTwitchStream(ch.name);
+          }
+        });
+        container.appendChild(div);
+      });
+    }
+    let currentTwitchChannel = null;
+    function loadTwitchStream(channel){
+      if(currentTwitchChannel === channel) return;
+      currentTwitchChannel = channel;
+      const container = document.getElementById('twitch-player-container');
+      container.innerHTML = '';
+      const embed = document.createElement('iframe');
+      embed.src = `https://player.twitch.tv/?channel=${channel}&parent=${window.location.hostname}&autoplay=true`;
+      embed.allow = "autoplay; fullscreen";
+      embed.frameBorder = '0';
+      embed.height = '100%';
+      embed.width = '100%';
+      embed.setAttribute('allowfullscreen', true);
+      embed.setAttribute('title', `Twitch stream of ${channel}`);
+      container.appendChild(embed);
+    }
+    renderTwitchChannels();
 
-  // Inisialisasi awal
-  renderGames();
-  renderTopups();
-  showSlide(0);
+    // Store Merchandise Items
+    const merchandise = [
+      {id: 'm1', title: 'Gamhub T-Shirt', description: 'Kaos kualitas premium dengan logo Gamhub', price: 'Rp150.000', image: 'https://i.imgur.com/dlX9PlP.jpg'},
+      {id: 'm2', title: 'Gamhub Hoodie', description: 'Hoodie hangat dan nyaman dengan desain keren', price: 'Rp300.000', image: 'https://i.imgur.com/p7FSTH2.jpg'},
+      {id: 'm3', title: 'Gamhub Mug', description: 'Cangkir keramik untuk teman ngopi gamer', price: 'Rp75.000', image: 'https://i.imgur.com/i7e8hBd.jpg'},
+      {id: 'm4', title: 'Gamhub Sticker Pack', description: 'Paket stiker keren untuk laptop dan kaca', price: 'Rp40.000', image: 'https://i.imgur.com/UHglaMq.png'}
+    ];
+
+    const storeGrid = document.getElementById('store-grid');
+
+    function renderStore(){
+      storeGrid.innerHTML = '';
+      merchandise.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'store-item';
+        card.setAttribute('role', 'listitem');
+        card.tabIndex = 0;
+        card.setAttribute('aria-label', `${item.title}: ${item.description}, harga ${item.price}`);
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.title}" loading="lazy" />
+          <div class="store-info">
+            <h3 class="store-title">${item.title}</h3>
+            <p class="store-desc">${item.description}</p>
+            <div class="store-price">${item.price}</div>
+            <button class="buy-button" aria-label="Beli ${item.title}">Beli Sekarang</button>
+          </div>
+        `;
+        const buyBtn = card.querySelector('.buy-button');
+        buyBtn.addEventListener('click', e => {
+          e.stopPropagation();
+          alert(`Terima kasih telah memilih membeli: ${item.title}\nHarga: ${item.price}`);
+        });
+        storeGrid.appendChild(card);
+      });
+    }
+    renderStore();
+
+    // Initialize games
+    function renderGamesInit() {
+      let filtered = games.filter(g => currentCategory === 'Semua' || g.category === currentCategory);
+      if(currentSearch.trim()){
+        const s = currentSearch.toLowerCase();
+        filtered = filtered.filter(g => g.title.toLowerCase().includes(s));
+      }
+      gamesGrid.innerHTML = '';
+      if(filtered.length === 0){
+        gamesGrid.innerHTML = '<p style="text-align:center; color:#666; font-weight:600;">Tidak ada game ditemukan.</p>';
+        return;
+      }
+      filtered.forEach(g => {
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.setAttribute('role','listitem');
+        card.tabIndex = 0;
+        card.setAttribute('aria-label', `${g.title}: ${g.desc}`);
+        card.innerHTML = `
+          <img src="${g.thumbnail}" alt="Thumbnail of ${g.title}" loading="lazy" />
+          <div class="game-info">
+            <h3 class="game-title">${g.title}</h3>
+            <p class="game-desc">${g.desc}</p>
+            <p class="game-meta">Kategori: ${g.category}</p>
+            <button class="play-button" aria-label="Mainkan ${g.title}">Mainkan</button>
+          </div>
+        `;
+        const playBtn = card.querySelector('.play-button');
+        playBtn.addEventListener('click', e => {
+          e.stopPropagation();
+          openGameModal(g);
+        });
+        card.addEventListener('click', () => openGameModal(g));
+        gamesGrid.appendChild(card);
+      });
+    }
+
+    renderGamesInit();
+
+    // Game modal functions
+    function openGameModal(game){
+      gameIframe.src = game.embed;
+      gameIframe.title = `Game: ${game.title}`;
+      gameModal.classList.add('active');
+      gameModal.focus();
+    }
+    function closeGameModal(){
+      gameIframe.src = '';
+      gameModal.classList.remove('active');
+    }
+    modalCloseBtn.addEventListener('click', closeGameModal);
+    gameModal.addEventListener('click', e => {
+      if(e.target === gameModal) closeGameModal();
+    });
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape' && gameModal.classList.contains('active')){
+        closeGameModal();
+      }
+    });
+
+    // Search input event
+    searchInput.addEventListener('input', () => {
+      currentSearch = searchInput.value;
+      // Re-filter games and render
+      const buttons = Array.from(categoriesNav.children);
+      buttons.forEach(btn => btn.classList.remove('active'));
+      // Reset category to 'Semua'
+      currentCategory = 'Semua';
+      buttons.find(b => b.textContent.trim() === 'Semua')?.classList.add('active');
+      renderGamesInit();
+    });
+  })();
 </script>
-
 </body>
 </html>
